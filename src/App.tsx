@@ -1,9 +1,24 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
+import { useRef, useState } from 'react'
 import logobmtips from './assets/logobmtips.png'
 import './App.css'
+import emailjs, { send } from '@emailjs/browser'
+
 
 function App() {
+
+  const form = useRef();
+
+  const sendEmail = (e: any) => {
+    e.preventDefault();
+
+    emailjs.sendForm('service_9uac0t7', 'template_ol4dl19', form.current, 'HTOxlWNcQT4jsBbc6')
+    .then((result) => {
+      console.log(result.text);
+  }, (error) => {
+      console.log(error.text);
+  });
+
+  }
 
   return (
     <div className="App">
@@ -13,12 +28,14 @@ function App() {
         </a>
       </div>
       <h2>Entre para lista e saiba quando os grupos estarão disponíveis</h2>
-      <form className='formApp'>
+      <form ref={form} onSubmit={sendEmail} className='formApp'>
         <input 
-          type="text"
+         
           placeholder="Insira seu melhor email"
+          type="email" name="user_email"
+          
         />
-        <button>Cadastrar</button>
+        <button type="submit">Cadastrar</button>
       </form>
       <div className="card">
         
